@@ -12,18 +12,24 @@ import com.example.designpatternsdemo.Behavioral.Iterator.BookShelf;
 import com.example.designpatternsdemo.Behavioral.Iterator.Iterator;
 import com.example.designpatternsdemo.Behavioral.Mediator.Colleague1;
 import com.example.designpatternsdemo.Behavioral.Mediator.ConcreteMediator;
+import com.example.designpatternsdemo.Behavioral.Memento.Caretaker;
+import com.example.designpatternsdemo.Behavioral.Memento.Originator;
+import com.example.designpatternsdemo.Behavioral.Observer.CurrentConditionsDisplay;
+import com.example.designpatternsdemo.Behavioral.Observer.Observer;
+import com.example.designpatternsdemo.Behavioral.Observer.WeatherData;
+import com.example.designpatternsdemo.Behavioral.State.Booked;
+import com.example.designpatternsdemo.Behavioral.State.Payed;
+import com.example.designpatternsdemo.Behavioral.State.StateContext;
 import com.example.designpatternsdemo.Behavioral.command.BakeChickenWingCommand;
 import com.example.designpatternsdemo.Behavioral.command.BakeMuttonCommand;
 import com.example.designpatternsdemo.Behavioral.command.Barbecuer;
 import com.example.designpatternsdemo.Behavioral.command.Command;
 import com.example.designpatternsdemo.Behavioral.command.Waiter;
 
-import java.io.Console;
-
 public class MainClass {
 
     //开店前的准备
-    public void testCommand(){
+    public void testCommand() {
         Barbecuer boy = new Barbecuer();
         Command bakeMuttonCommand1 = new BakeMuttonCommand(boy);
         Command bakeMuttonCommand2 = new BakeMuttonCommand(boy);
@@ -37,7 +43,7 @@ public class MainClass {
         girl.notifyOrders();
     }
 
-    public void testInterpreter(){
+    public void testInterpreter() {
         Context context = new Context();
         Variable xVariable = new Variable("X");
         Variable yVariable = new Variable("Y");
@@ -54,24 +60,51 @@ public class MainClass {
         System.out.println(expression.toString() + " = " + expression.interpret(context));
     }
 
-    public void testIterator(){
+    public void testIterator() {
         BookShelf bookShelf = new BookShelf(4);
         bookShelf.appendBook(new Book("倚天屠龙记"));
         bookShelf.appendBook(new Book("葵花宝典"));
         bookShelf.appendBook(new Book("九阳真经"));
         bookShelf.appendBook(new Book("神雕侠侣"));
         Iterator it = bookShelf.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Book book = (Book) it.next();
             System.out.println(book.getName());
         }
     }
 
-    public void testMediator(){
+    public void testMediator() {
         ConcreteMediator mediator = new ConcreteMediator();
         mediator.createConcreteMediator();
         Colleague1 col1 = new Colleague1(mediator);
 //        Colleague2 col2 = new Colleague2(mediator);
         mediator.colleagueChanged(col1);
+    }
+
+    public void testMemento() {
+        //定义出发起人
+        Originator originator = new Originator();
+        //定义出备忘录管理员
+        Caretaker caretaker = new Caretaker();
+        //创建一个备忘录
+        caretaker.setMemento(originator.createMemento());
+        //恢复一个备忘录
+        originator.restoreMemento(caretaker.getMemento());
+    }
+
+    public void testObserver(){
+        WeatherData weatherData=new WeatherData();
+        Observer currentDisplay=new CurrentConditionsDisplay();
+        weatherData.setHumidity(12);
+        weatherData.setPressure(23);
+        weatherData.setTemperature(344);
+        weatherData.registerObServer(currentDisplay);
+        weatherData.measuermentsChanged();
+    }
+
+    public void testState(){
+        StateContext context = new StateContext();
+        context.setState(new Booked());
+        context.setState(new Payed());
     }
 }
