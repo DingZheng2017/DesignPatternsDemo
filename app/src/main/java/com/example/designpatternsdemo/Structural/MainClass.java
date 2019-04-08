@@ -6,6 +6,12 @@ import com.example.designpatternsdemo.Structural.Decorator.DarkRoast;
 import com.example.designpatternsdemo.Structural.Decorator.HouseBlend;
 import com.example.designpatternsdemo.Structural.Decorator.Milk;
 import com.example.designpatternsdemo.Structural.Decorator.Mocha;
+import com.example.designpatternsdemo.Structural.Facade.ApproveFacade;
+import com.example.designpatternsdemo.Structural.Flyweight.Flyweight;
+import com.example.designpatternsdemo.Structural.Flyweight.FlyweightFactory;
+import com.example.designpatternsdemo.Structural.Proxy.AbstractObject;
+import com.example.designpatternsdemo.Structural.Proxy.ProxyObject;
+import com.example.designpatternsdemo.Structural.Proxy.RealObject;
 import com.example.designpatternsdemo.Structural.bridge.ImportantMsg;
 import com.example.designpatternsdemo.Structural.bridge.Msg;
 import com.example.designpatternsdemo.Structural.bridge.SendMsgInterface;
@@ -40,5 +46,37 @@ public class MainClass {
         beverage2 = new Milk(beverage2);
         beverage2 = new Mocha(beverage2);
         System.out.println(beverage2.getDescription() + "$" + beverage2.cost());
+    }
+
+    /**
+     * 内部处理办理卫生许可证，办理税务登记，办理工商登记流程
+     */
+    public void testFacade(){
+        ApproveFacade af = new ApproveFacade();
+        af.wholeApprove();
+    }
+
+    public void testFlyweight(){
+        Flyweight fly1 = FlyweightFactory.getFlyweight("a");
+        fly1.action(1);
+
+        Flyweight fly2 = FlyweightFactory.getFlyweight("a");
+        System.out.println(fly1 == fly2);
+
+        Flyweight fly3 = FlyweightFactory.getFlyweight("b");
+        fly3.action(2);
+
+        Flyweight fly4 = FlyweightFactory.getFlyweight("c");
+        fly4.action(3);
+
+        Flyweight fly5 = FlyweightFactory.getFlyweight("d");
+        fly4.action(4);
+
+        System.out.println(FlyweightFactory.getSize());
+    }
+
+    public void testProxy(){
+        AbstractObject proxy = new ProxyObject(new RealObject());
+        proxy.operation();
     }
 }
