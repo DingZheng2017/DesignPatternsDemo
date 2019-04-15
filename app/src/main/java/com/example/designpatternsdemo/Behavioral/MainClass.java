@@ -20,6 +20,16 @@ import com.example.designpatternsdemo.Behavioral.Observer.WeatherData;
 import com.example.designpatternsdemo.Behavioral.State.Booked;
 import com.example.designpatternsdemo.Behavioral.State.Payed;
 import com.example.designpatternsdemo.Behavioral.State.StateContext;
+import com.example.designpatternsdemo.Behavioral.Strategy.OperationAdd;
+import com.example.designpatternsdemo.Behavioral.Strategy.OperationMultiply;
+import com.example.designpatternsdemo.Behavioral.Strategy.OperationSubstract;
+import com.example.designpatternsdemo.Behavioral.Strategy.StrategyContext;
+import com.example.designpatternsdemo.Behavioral.TemplateMethod.Cricket;
+import com.example.designpatternsdemo.Behavioral.TemplateMethod.Football;
+import com.example.designpatternsdemo.Behavioral.TemplateMethod.Game;
+import com.example.designpatternsdemo.Behavioral.Visitor.Computer;
+import com.example.designpatternsdemo.Behavioral.Visitor.ComputerPart;
+import com.example.designpatternsdemo.Behavioral.Visitor.ComputerPartDisplayVisitor;
 import com.example.designpatternsdemo.Behavioral.command.BakeChickenWingCommand;
 import com.example.designpatternsdemo.Behavioral.command.BakeMuttonCommand;
 import com.example.designpatternsdemo.Behavioral.command.Barbecuer;
@@ -92,9 +102,9 @@ public class MainClass {
         originator.restoreMemento(caretaker.getMemento());
     }
 
-    public void testObserver(){
-        WeatherData weatherData=new WeatherData();
-        Observer currentDisplay=new CurrentConditionsDisplay();
+    public void testObserver() {
+        WeatherData weatherData = new WeatherData();
+        Observer currentDisplay = new CurrentConditionsDisplay();
         weatherData.setHumidity(12);
         weatherData.setPressure(23);
         weatherData.setTemperature(344);
@@ -102,9 +112,33 @@ public class MainClass {
         weatherData.measuermentsChanged();
     }
 
-    public void testState(){
+    public void testState() {
         StateContext context = new StateContext();
         context.setState(new Booked());
         context.setState(new Payed());
+    }
+
+    public void testStrategy() {
+        StrategyContext context = new StrategyContext(new OperationAdd());
+        System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
+
+        context = new StrategyContext(new OperationSubstract());
+        System.out.println("10 - 5 = " + context.executeStrategy(10, 5));
+
+        context = new StrategyContext(new OperationMultiply());
+        System.out.println("10 * 5 = " + context.executeStrategy(10, 5));
+    }
+
+    public void testTemplateMethod() {
+        Game game = new Cricket();
+        game.play();
+
+        game = new Football();
+        game.play();
+    }
+
+    public void testVisitor() {
+        ComputerPart computer = new Computer();
+        computer.accept(new ComputerPartDisplayVisitor());
     }
 }
