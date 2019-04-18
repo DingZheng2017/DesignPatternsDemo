@@ -1,26 +1,42 @@
 package com.example.designpatternsdemo.Creational;
 
-import com.example.designpatternsdemo.Creational.AbstractoryFactory.BombFactory;
-import com.example.designpatternsdemo.Creational.AbstractoryFactory.SimpleFactory;
+import com.example.designpatternsdemo.Creational.AbstractoryFactory.Button;
+import com.example.designpatternsdemo.Creational.AbstractoryFactory.GUIFactory;
+import com.example.designpatternsdemo.Creational.AbstractoryFactory.OSXFactory;
+import com.example.designpatternsdemo.Creational.AbstractoryFactory.WinFactory;
 import com.example.designpatternsdemo.Creational.Builder.Director;
 import com.example.designpatternsdemo.Creational.Builder.HtmlBuilder;
 import com.example.designpatternsdemo.Creational.Builder.TextBuilder;
-import com.example.designpatternsdemo.Creational.Factory.Factory;
+import com.example.designpatternsdemo.Creational.Factory.MagicMazeGame;
+import com.example.designpatternsdemo.Creational.Factory.MazeGame;
+import com.example.designpatternsdemo.Creational.Factory.OrdinaryMazeGame;
 import com.example.designpatternsdemo.Creational.PhotoType.MessageBox;
 import com.example.designpatternsdemo.Creational.PhotoType.Product;
-import com.example.designpatternsdemo.model.Sample;
-
-import java.util.HashMap;
 
 public class MainClass {
 
     //Factory
-    Sample sampleA = Factory.creator(1);
+
+    public void testFactory() {
+        MazeGame ordinaryGame = new OrdinaryMazeGame();
+        MazeGame magicGame = new MagicMazeGame();
+    }
 
     //AbstractFactory
+    public void testAbstratcoryFactory(int type) {
+        GUIFactory factory = null;
+        switch (type) {
+            case 0:
+                factory = new WinFactory();
+                break;
+            case 1:
+                factory = new OSXFactory();
+                break;
+        }
 
-    Sample sample1 = new SimpleFactory().creator();
-    Sample sample2 = new BombFactory().creator("2");
+        Button button = factory.createButton();
+        button.paint();
+    }
 
     //Builder
     public void useBuilder(String choice) {
@@ -36,8 +52,10 @@ public class MainClass {
             System.out.println(html.getResult());
         }
     }
-    //PhotoType
-    Product a = new MessageBox('a');
-    Product b = a.createClone();
 
+    //PhotoType
+    public void testPhotoType() {
+        Product a = new MessageBox('a');
+        Product b = a.createClone();
+    }
 }
